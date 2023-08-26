@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  node-red:
+    container_name: Bombas-sumergibles-NodeRed
+    image: nodered/node-red:latest
+    ports:
+      - "1880:1880"
+    restart: always
+    volumes:
+      - ./nodered:/data
+    networks:
+      - mi-red
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - ./config:/mosquitto/config:rw
+      - ./data:/mosquitto/data:rw
+      - ./log:/mosquitto/log:rw
+    ports:
+      - "1883:1883"
+      - "9001:9001"    
+    restart: always
+    networks:
+      - mi-red      
+networks:
+  mi-red:
+    driver: bridge
